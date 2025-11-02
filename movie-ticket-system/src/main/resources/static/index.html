@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎬 Movie Ticket System</h1>
+            <p class="subtitle">Browse and discover amazing movies</p>
+        </header>
+
+        <!-- Search and Filter Section -->
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search movies by title..." />
+                <button id="searchBtn">Search</button>
+                <button id="clearBtn">Clear</button>
+            </div>
+
+            <div class="filter-box">
+                <label for="genreFilter">Filter by Genre:</label>
+                <select id="genreFilter">
+                    <option value="">All Genres</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">Loading movies...</div>
+
+        <!-- Error Message -->
+        <div id="error" class="error hidden"></div>
+
+        <!-- Movies Grid -->
+        <div id="moviesContainer" class="movies-grid"></div>
+
+        <!-- Movie Detail Modal -->
+        <div id="movieModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="movieDetail"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
