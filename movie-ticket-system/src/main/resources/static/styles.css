@@ -140,6 +140,19 @@ button {
     display: none !important;
 }
 
+/* Movie Count */
+.movie-count {
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+}
+
 /* Movies Grid */
 .movies-grid {
     display: grid;

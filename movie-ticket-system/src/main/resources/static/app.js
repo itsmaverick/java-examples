@@ -70,14 +70,21 @@ async function loadMovies() {
     hideError();
 
     try {
+        console.log('Fetching movies from:', `${API_BASE_URL}/movies`);
         const response = await fetch(`${API_BASE_URL}/movies`);
-        if (!response.ok) throw new Error('Failed to load movies');
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         allMovies = await response.json();
         currentMovies = allMovies;
+
+        console.log(`Loaded ${allMovies.length} movies from database`);
         displayMovies(currentMovies);
+        updateMovieCount(currentMovies.length);
     } catch (err) {
-        showError('Failed to load movies. Please make sure the server is running.');
+        showError('Failed to load movies. Please make sure the server is running on http://localhost:8080');
         console.error('Error loading movies:', err);
     } finally {
         hideLoading();
@@ -102,6 +109,7 @@ async function handleSearch() {
 
         currentMovies = await response.json();
         displayMovies(currentMovies);
+        updateMovieCount(currentMovies.length);
 
         if (currentMovies.length === 0) {
             showError(`No movies found matching "${query}"`);
@@ -120,6 +128,7 @@ function handleClear() {
     genreFilter.value = '';
     currentMovies = allMovies;
     displayMovies(currentMovies);
+    updateMovieCount(currentMovies.length);
     hideError();
 }
 
@@ -130,6 +139,7 @@ async function handleGenreFilter() {
     if (!selectedGenre) {
         currentMovies = allMovies;
         displayMovies(currentMovies);
+        updateMovieCount(currentMovies.length);
         return;
     }
 
@@ -142,6 +152,7 @@ async function handleGenreFilter() {
 
         currentMovies = await response.json();
         displayMovies(currentMovies);
+        updateMovieCount(currentMovies.length);
 
         if (currentMovies.length === 0) {
             showError(`No movies found in genre "${selectedGenre}"`);
@@ -260,6 +271,14 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Update movie count display
+function updateMovieCount(count) {
+    const countElement = document.getElementById('movieCount');
+    if (countElement) {
+        countElement.textContent = `Showing ${count} movie${count !== 1 ? 's' : ''}`;
+    }
 }
 
 // Start the application
