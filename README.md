@@ -2,6 +2,8 @@
 
 A collection of Java programming examples and demonstrations covering various CS18000 course topics.
 
+**GitHub Repository**: [https://github.com/itsmaverick/java-examples](https://github.com/itsmaverick/java-examples)
+
 ## 📚 Modules
 
 ### [Module 07: File I/O and Exception Handling](./module07-fileio-exceptions)
@@ -26,6 +28,13 @@ See [module07-fileio-exceptions/README.md](./module07-fileio-exceptions/README.m
 ---
 
 ## 🚀 Getting Started
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/itsmaverick/java-examples.git
+cd java-examples
+```
 
 Each module is self-contained with its own documentation, build scripts, and examples.
 
