@@ -53,8 +53,11 @@ public class MovieTicketServer {
     private static void setupRoutes() {
         // Explicit routes for static files - MUST be defined BEFORE other routes
         get("/index.html", (req, res) -> serveStaticFile(req, res));
+        get("/dashboard.html", (req, res) -> serveStaticFile(req, res));
         get("/styles.css", (req, res) -> serveStaticFile(req, res));
+        get("/dashboard.css", (req, res) -> serveStaticFile(req, res));
         get("/app.js", (req, res) -> serveStaticFile(req, res));
+        get("/dashboard.js", (req, res) -> serveStaticFile(req, res));
 
         // Root endpoint
         get("/", (req, res) -> {
@@ -85,6 +88,15 @@ public class MovieTicketServer {
 
         // Get all genres
         get("/api/genres", MovieTicketServer::getAllGenres);
+
+        // Create a new movie
+        post("/api/movies", MovieTicketServer::createMovie);
+
+        // Update an existing movie
+        put("/api/movies/:id", MovieTicketServer::updateMovie);
+
+        // Delete a movie
+        delete("/api/movies/:id", MovieTicketServer::deleteMovie);
 
         // Reload movies from file
         post("/api/reload", MovieTicketServer::reloadMovies);
@@ -164,6 +176,79 @@ public class MovieTicketServer {
         res.type("application/json");
         List<String> genres = movieService.getAllGenres();
         return gson.toJson(genres);
+    }
+
+    /**
+     * Create a new movie endpoint
+     */
+    private static String createMovie(Request req, Response res) {
+        res.type("application/json");
+        try {
+            Movie movie = gson.fromJson(req.body(), Movie.class);
+            Movie createdMovie = movieService.createMovie(movie);
+            res.status(201); // Created
+            return gson.toJson(createdMovie);
+        } catch (IllegalArgumentException e) {
+            res.status(400); // Bad Request
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Bad Request");
+            error.put("message", e.getMessage());
+            return gson.toJson(error);
+        } catch (Exception e) {
+            res.status(500);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Internal Server Error");
+            error.put("message", e.getMessage());
+            return gson.toJson(error);
+        }
+    }
+
+    /**
+     * Update an existing movie endpoint
+     */
+    private static String updateMovie(Request req, Response res) {
+        res.type("application/json");
+        try {
+            String id = req.params(":id");
+            Movie movie = gson.fromJson(req.body(), Movie.class);
+            Movie updatedMovie = movieService.updateMovie(id, movie);
+            return gson.toJson(updatedMovie);
+        } catch (IllegalArgumentException e) {
+            res.status(404); // Not Found
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Not Found");
+            error.put("message", e.getMessage());
+            return gson.toJson(error);
+        } catch (Exception e) {
+            res.status(500);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Internal Server Error");
+            error.put("message", e.getMessage());
+            return gson.toJson(error);
+        }
+    }
+
+    /**
+     * Delete a movie endpoint
+     */
+    private static String deleteMovie(Request req, Response res) {
+        res.type("application/json");
+        String id = req.params(":id");
+        boolean deleted = movieService.deleteMovie(id);
+
+        if (deleted) {
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Movie deleted successfully");
+            response.put("id", id);
+            return gson.toJson(response);
+        } else {
+            res.status(404);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Not Found");
+            error.put("message", "Movie with ID " + id + " not found");
+            return gson.toJson(error);
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.movieticket.model.Movie;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -93,5 +94,79 @@ public class MovieService {
      */
     public void reloadMovies() {
         loadMoviesFromFile();
+    }
+
+    /**
+     * Create a new movie
+     */
+    public Movie createMovie(Movie movie) {
+        // Generate ID if not provided
+        if (movie.getId() == null || movie.getId().isEmpty()) {
+            movie.setId(generateNextId());
+        }
+
+        // Check if ID already exists
+        if (getMovieById(movie.getId()) != null) {
+            throw new IllegalArgumentException("Movie with ID " + movie.getId() + " already exists");
+        }
+
+        movies.add(movie);
+        saveMoviesToFile();
+        System.out.println("Created new movie: " + movie.getTitle() + " (ID: " + movie.getId() + ")");
+        return movie;
+    }
+
+    /**
+     * Update an existing movie
+     */
+    public Movie updateMovie(String id, Movie updatedMovie) {
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).getId().equals(id)) {
+                updatedMovie.setId(id); // Ensure ID doesn't change
+                movies.set(i, updatedMovie);
+                saveMoviesToFile();
+                System.out.println("Updated movie: " + updatedMovie.getTitle() + " (ID: " + id + ")");
+                return updatedMovie;
+            }
+        }
+        throw new IllegalArgumentException("Movie with ID " + id + " not found");
+    }
+
+    /**
+     * Delete a movie by ID
+     */
+    public boolean deleteMovie(String id) {
+        boolean removed = movies.removeIf(movie -> movie.getId().equals(id));
+        if (removed) {
+            saveMoviesToFile();
+            System.out.println("Deleted movie with ID: " + id);
+        }
+        return removed;
+    }
+
+    /**
+     * Save movies to JSON file
+     */
+    private void saveMoviesToFile() {
+        try (FileWriter writer = new FileWriter(dataFilePath)) {
+            gson.toJson(movies, writer);
+            System.out.println("Successfully saved " + movies.size() + " movies to file");
+        } catch (IOException e) {
+            System.err.println("Error saving movies to file: " + e.getMessage());
+            throw new RuntimeException("Failed to save movies", e);
+        }
+    }
+
+    /**
+     * Generate next available ID
+     */
+    private String generateNextId() {
+        int maxId = movies.stream()
+                .map(Movie::getId)
+                .filter(id -> id.matches("\\d+"))
+                .mapToInt(Integer::parseInt)
+                .max()
+                .orElse(0);
+        return String.valueOf(maxId + 1);
     }
 }
