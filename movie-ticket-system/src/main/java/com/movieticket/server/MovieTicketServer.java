@@ -6,6 +6,10 @@ import com.movieticket.service.MovieService;
 import spark.Request;
 import spark.Response;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +36,17 @@ public class MovieTicketServer {
         // Enable CORS
         enableCORS();
 
-        // Serve static files (HTML, CSS, JS)
-        staticFiles.location("/static");
+        // Try to serve static files from external location (for development)
+        String staticDir = "src/main/resources/static";
+        File staticFolder = new File(staticDir);
+        if (staticFolder.exists() && staticFolder.isDirectory()) {
+            staticFiles.externalLocation(staticDir);
+            System.out.println("Serving static files from: " + staticFolder.getAbsolutePath());
+        } else {
+            // Fallback to classpath resources (for JAR)
+            staticFiles.location("/static");
+            System.out.println("Serving static files from classpath: /static");
+        }
         staticFiles.expireTime(600);
 
         // Define API routes
@@ -56,6 +69,11 @@ public class MovieTicketServer {
             res.redirect("/index.html");
             return null;
         });
+
+        // Explicit routes for static files (fallback)
+        get("/index.html", MovieTicketServer::serveStaticFile);
+        get("/styles.css", MovieTicketServer::serveStaticFile);
+        get("/app.js", MovieTicketServer::serveStaticFile);
 
         // API Health check
         get("/api/health", (req, res) -> {
@@ -171,6 +189,42 @@ public class MovieTicketServer {
         response.put("status", "success");
         response.put("message", "Movies reloaded from file");
         return gson.toJson(response);
+    }
+
+    /**
+     * Serve static files (HTML, CSS, JS)
+     */
+    private static String serveStaticFile(Request req, Response res) {
+        String fileName = req.pathInfo();
+        if (fileName.startsWith("/")) {
+            fileName = fileName.substring(1);
+        }
+
+        String filePath = "src/main/resources/static/" + fileName;
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            res.status(404);
+            return "File not found: " + fileName;
+        }
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+            // Set content type based on file extension
+            if (fileName.endsWith(".html")) {
+                res.type("text/html");
+            } else if (fileName.endsWith(".css")) {
+                res.type("text/css");
+            } else if (fileName.endsWith(".js")) {
+                res.type("application/javascript");
+            }
+
+            return content;
+        } catch (IOException e) {
+            res.status(500);
+            return "Error reading file: " + e.getMessage();
+        }
     }
 
     /**
