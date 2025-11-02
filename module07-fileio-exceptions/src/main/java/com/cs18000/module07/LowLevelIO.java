@@ -26,8 +26,17 @@ public class LowLevelIO {
             System.out.printf("Read byte value: %d\n", i);
             fis.close();
 
-            // Clean up
-            f.delete();
+            // Save file to output folder
+            File outputDir = new File("output");
+            if (!outputDir.exists()) {
+                outputDir.mkdir();
+            }
+            File savedFile = new File(outputDir, "lowlevel.dat");
+            if (f.renameTo(savedFile)) {
+                System.out.println("File saved to: " + savedFile.getPath());
+            } else {
+                System.err.println("Warning: Could not save file to output folder");
+            }
 
         } catch (IOException e) {
             System.err.println("IOException: " + e.getMessage());

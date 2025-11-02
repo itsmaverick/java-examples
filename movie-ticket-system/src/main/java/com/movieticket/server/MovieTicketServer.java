@@ -36,20 +36,7 @@ public class MovieTicketServer {
         // Enable CORS
         enableCORS();
 
-        // Try to serve static files from external location (for development)
-        String staticDir = "src/main/resources/static";
-        File staticFolder = new File(staticDir);
-        if (staticFolder.exists() && staticFolder.isDirectory()) {
-            staticFiles.externalLocation(staticDir);
-            System.out.println("Serving static files from: " + staticFolder.getAbsolutePath());
-        } else {
-            // Fallback to classpath resources (for JAR)
-            staticFiles.location("/static");
-            System.out.println("Serving static files from classpath: /static");
-        }
-        staticFiles.expireTime(600);
-
-        // Define API routes
+        // Define API routes FIRST
         setupRoutes();
 
         System.out.println("========================================");
@@ -64,16 +51,16 @@ public class MovieTicketServer {
      * Setup all REST API routes
      */
     private static void setupRoutes() {
+        // Explicit routes for static files - MUST be defined BEFORE other routes
+        get("/index.html", (req, res) -> serveStaticFile(req, res));
+        get("/styles.css", (req, res) -> serveStaticFile(req, res));
+        get("/app.js", (req, res) -> serveStaticFile(req, res));
+
         // Root endpoint
         get("/", (req, res) -> {
             res.redirect("/index.html");
             return null;
         });
-
-        // Explicit routes for static files (fallback)
-        get("/index.html", MovieTicketServer::serveStaticFile);
-        get("/styles.css", MovieTicketServer::serveStaticFile);
-        get("/app.js", MovieTicketServer::serveStaticFile);
 
         // API Health check
         get("/api/health", (req, res) -> {
@@ -200,12 +187,17 @@ public class MovieTicketServer {
             fileName = fileName.substring(1);
         }
 
+        System.out.println("Serving static file: " + fileName);
+
         String filePath = "src/main/resources/static/" + fileName;
         File file = new File(filePath);
 
+        System.out.println("Looking for file at: " + file.getAbsolutePath());
+
         if (!file.exists()) {
             res.status(404);
-            return "File not found: " + fileName;
+            System.err.println("File not found: " + file.getAbsolutePath());
+            return "File not found: " + fileName + " (looked at: " + file.getAbsolutePath() + ")";
         }
 
         try {
@@ -220,9 +212,11 @@ public class MovieTicketServer {
                 res.type("application/javascript");
             }
 
+            System.out.println("Successfully served: " + fileName + " (" + content.length() + " bytes)");
             return content;
         } catch (IOException e) {
             res.status(500);
+            System.err.println("Error reading file: " + e.getMessage());
             return "Error reading file: " + e.getMessage();
         }
     }
