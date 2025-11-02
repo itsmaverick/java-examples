@@ -1,0 +1,86 @@
+{
+  // Java Configuration
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.errors.incompleteClasspath.severity": "warning",
+
+  // Editor Settings
+  "editor.formatOnSave": true,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": true,
+
+  // Java Formatting
+  "java.format.settings.url": "",
+  "java.format.settings.profile": "GoogleStyle",
+  "java.format.enabled": true,
+
+  // Files
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/target": true,
+    "**/*.class": true
+  },
+  "files.watcherExclude": {
+    "**/target/**": true,
+    "**/.git/**": true
+  },
+
+  // Search
+  "search.exclude": {
+    "**/target": true,
+    "**/node_modules": true,
+    "**/.git": true
+  },
+
+  // Terminal
+  "terminal.integrated.defaultProfile.osx": "bash",
+  "terminal.integrated.fontSize": 13,
+
+  // Git
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+
+  // Cursor-Specific Settings
+  "cursor.chat.enabled": true,
+  "cursor.composer.enabled": true,
+
+  // IntelliSense
+  "editor.suggestSelection": "first",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+
+  // Code Lens
+  "java.references.includeAccessors": true,
+  "java.implementationsCodeLens.enabled": true,
+  "java.referencesCodeLens.enabled": true,
+
+  // Maven
+  "maven.terminal.useJavaHome": true,
+  "maven.executable.preferMavenWrapper": false,
+
+  // File Associations
+  "files.associations": {
+    "*.java": "java",
+    ".cursorrules": "markdown"
+  },
+
+  // Breadcrumbs
+  "breadcrumbs.enabled": true,
+
+  // Problems
+  "problems.showCurrentInStatus": true,
+
+  // Comments
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+    "editor.tabSize": 4
+  }
+}

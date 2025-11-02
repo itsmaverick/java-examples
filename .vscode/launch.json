@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run Module 07 Demo",
+      "request": "launch",
+      "mainClass": "com.cs18000.module07.FileIODemo",
+      "projectName": "module07-fileio-exceptions",
+      "cwd": "${workspaceFolder}/module07-fileio-exceptions"
+    },
+    {
+      "type": "java",
+      "name": "Debug Module 07 Demo",
+      "request": "launch",
+      "mainClass": "com.cs18000.module07.FileIODemo",
+      "projectName": "module07-fileio-exceptions",
+      "cwd": "${workspaceFolder}/module07-fileio-exceptions",
+      "console": "integratedTerminal",
+      "stopOnEntry": false
+    },
+    {
+      "type": "java",
+      "name": "Debug Current File",
+      "request": "launch",
+      "mainClass": "${file}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+# Cursor AI Rules for Java Examples Repository
+
+## Project Context
+This is an educational repository containing Java programming examples and demonstrations for CS18000 (Problem Solving and Object-Oriented Programming). Each module is self-contained with comprehensive examples.
+
+## Code Style Guidelines
+
+### Java Conventions
+- Follow standard Java naming conventions (camelCase for variables/methods, PascalCase for classes)
+- Use meaningful variable and method names
+- Add comprehensive Javadoc comments for classes and public methods
+- Keep methods focused and under 50 lines when possible
+- Use proper exception handling (try-catch, try-with-resources)
+- Always close resources (files, streams, scanners)
+
+### Documentation
+- Every class should have a header comment explaining its purpose
+- Complex algorithms should have inline comments
+- Include examples in documentation where helpful
+- Maintain README.md files for each module
+
+### File Organization
+- One public class per file
+- Package structure: com.cs18000.moduleXX
+- Organize by module in separate directories
+- Keep related classes together
+
+## Module Structure
+Each module should include:
+- README.md - Comprehensive documentation
+- QUICKSTART.md - Quick start guide
+- pom.xml - Maven configuration
+- compile.sh - Compilation script
+- run.sh - Execution script
+- src/main/java/ - Source code
+
+## AI Assistance Preferences
+
+### When Creating New Code
+- Include comprehensive comments explaining the educational purpose
+- Provide multiple examples demonstrating the concept
+- Include error handling and edge cases
+- Create interactive demonstrations when possible
+- Add sample input/output examples in comments
+
+### When Explaining Code
+- Start with high-level concept explanation
+- Break down complex logic step-by-step
+- Relate to course concepts (CS18000)
+- Provide analogies for difficult concepts
+- Reference relevant Java documentation
+
+### When Debugging
+- Check for common Java pitfalls (null pointers, resource leaks, etc.)
+- Verify exception handling is appropriate
+- Ensure resources are properly closed
+- Check for thread safety if applicable
+- Look for performance issues (unnecessary loops, etc.)
+
+### When Adding Features
+- Maintain consistency with existing module structure
+- Update all relevant documentation
+- Add appropriate unit tests if applicable
+- Ensure backwards compatibility
+- Follow the established patterns in the codebase
+
+## Educational Focus
+- Code should be clear and understandable for students
+- Prefer clarity over clever/compact code
+- Include explanatory comments for non-obvious logic
+- Demonstrate best practices
+- Show common mistakes and how to avoid them
+
+## Build and Run Commands
+- Compile: `./compile.sh` or `mvn compile`
+- Run: `./run.sh` or `mvn exec:java`
+- Each module is independent
+
+## Testing Approach
+- Manual testing through interactive demos preferred
+- Include verification output in demonstrations
+- Show expected vs actual results
+- Test error conditions and edge cases
+
+## Prohibited Patterns
+- Don't use deprecated Java features
+- Avoid wildcard imports (import java.util.*)
+- Don't catch generic Exception without good reason
+- Don't leave TODOs or incomplete code
+- Avoid magic numbers - use named constants
+
+## Best Practices
+- Always use try-with-resources for AutoCloseable resources
+- Prefer specific exceptions over generic ones
+- Use meaningful exception messages
+- Initialize collections with appropriate capacity when known
+- Use StringBuilder for string concatenation in loops
+- Close scanners and other resources
+- Validate input before processing
+
+## Module-Specific Guidelines
+
+### Module 07 (File I/O and Exception Handling)
+- Demonstrate all three I/O layers (low-level, high-level, object)
+- Show both text and binary file operations
+- Include comprehensive exception handling examples
+- Demonstrate try-with-resources
+- Show buffering concepts
+- Explain checked vs unchecked exceptions
+
+### Future Modules
+- Follow the same structure as Module 07
+- Include interactive demonstrations
+- Provide comprehensive documentation
+- Create meaningful, educational examples
+
+## Git Commit Messages
+- Use present tense: "Add feature" not "Added feature"
+- Be descriptive but concise
+- Reference module numbers when applicable
+- Include co-author attribution for Claude Code
+
+## Additional Context
+- Repository: https://github.com/itsmaverick/java-examples
+- Java Version: 11+
+- Build Tool: Maven
+- IDE Support: VS Code, Cursor, IntelliJ IDEA

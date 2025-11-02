@@ -68,6 +68,23 @@ java-examples/
 
 ## 🔧 Development Setup
 
+### Using Cursor IDE (Recommended with AI)
+
+**New to Cursor?** See [CURSOR_SETUP.md](./CURSOR_SETUP.md) for installation and configuration.
+
+1. Open Cursor IDE
+2. **File** → **Open Folder** → Select `java-examples`
+3. Trust the workspace when prompted
+4. The `.cursorrules` file automatically configures AI assistance
+5. Press **⌘L** (Mac) to chat with Claude about the code
+6. See [CURSOR_QUICKREF.md](./CURSOR_QUICKREF.md) for shortcuts and tips
+
+**AI Features:**
+- **⌘L** - Chat with Claude about your code
+- **⌘K** - Inline code editing with AI
+- **⌘I** - Multi-file editing (Composer)
+- **@Codebase** - Query the entire project
+
 ### Using VS Code
 
 1. Open the root `java-examples` folder in VS Code
